@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Mobiles",
+    "slug": "mobiles"
+  },
+  {
+    "name": "Laptops",
+    "slug": "laptops"
+  },
+  {
+    "name": "Electronics & Accessories",
+    "slug": "electronics-accessories"
+  },
+  {
+    "name": "Fashion — Men",
+    "slug": "fashion-men"
+  },
+  {
+    "name": "Fashion — Women",
+    "slug": "fashion-women"
+  },
+  {
+    "name": "Footwear",
+    "slug": "footwear"
+  },
+  {
+    "name": "Home & Kitchen",
+    "slug": "home-kitchen"
+  },
+  {
+    "name": "Furniture",
+    "slug": "furniture"
+  },
+  {
+    "name": "Large Appliances",
+    "slug": "large-appliances"
+  },
+  {
+    "name": "Beauty & Grooming",
+    "slug": "beauty-grooming"
+  },
+  {
+    "name": "Books",
+    "slug": "books"
+  },
+  {
+    "name": "Sports & Fitness",
+    "slug": "sports-fitness"
+  },
+  {
+    "name": "Baby & Kids",
+    "slug": "baby-kids"
+  },
+  {
+    "name": "Grocery & Supermart",
+    "slug": "grocery-supermart"
+  },
+  {
+    "name": "Watches",
+    "slug": "watches"
+  },
+  {
+    "name": "Bags & Luggage",
+    "slug": "bags-luggage"
+  },
+  {
+    "name": "Jewellery",
+    "slug": "jewellery"
+  },
+  {
+    "name": "Automotive",
+    "slug": "automotive"
+  },
+  {
+    "name": "Musical Instruments",
+    "slug": "musical-instruments"
+  },
+  {
+    "name": "Pet Supplies",
+    "slug": "pet-supplies"
+  }
+]
