@@ -4,6 +4,7 @@ import { getProductBySlug, getRelatedProducts, formatPrice } from "@/lib/product
 import AddToCartForm from "@/components/AddToCartForm";
 import WishlistButton from "@/components/WishlistButton";
 import Reviews from "@/components/Reviews";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { ProductRail } from "@/components/ProductGrid";
 
 export function generateMetadata({ params }) {
@@ -23,6 +24,13 @@ export default function ProductPage({ params }) {
 
   return (
     <div>
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: product.category, href: `/?category=${product.categorySlug}` },
+          { label: product.name },
+        ]}
+      />
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <div className="relative aspect-square bg-white border border-gray-200 rounded-md overflow-hidden">
