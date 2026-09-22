@@ -5,7 +5,6 @@ import TrustBar from "@/components/TrustBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import SortBar from "@/components/SortBar";
 import Pagination from "@/components/Pagination";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import { ProductGrid, ProductRail } from "@/components/ProductGrid";
 import {
   queryProducts,
@@ -13,28 +12,6 @@ import {
   getFeaturedByCategory,
   CATEGORIES,
 } from "@/lib/products";
-
-export function generateMetadata({ searchParams }) {
-  const q = searchParams?.q || "";
-  const category = searchParams?.category || "";
-  const categoryName = category
-    ? CATEGORIES.find((c) => c.slug === category)?.name
-    : "";
-
-  if (q) {
-    return {
-      title: `"${q}" — Search results | AARU`,
-      description: `Search results for "${q}" on AARU — 1,200+ products across 20 categories.`,
-    };
-  }
-  if (categoryName) {
-    return {
-      title: `${categoryName} — Shop online | AARU`,
-      description: `Shop ${categoryName} on AARU. Free delivery on orders above ₹499, 7-day returns, secure payments.`,
-    };
-  }
-  return {};
-}
 
 export default function HomePage({ searchParams }) {
   const q = searchParams?.q || "";
@@ -50,13 +27,6 @@ export default function HomePage({ searchParams }) {
   });
 
   const isBrowsing = Boolean(q || category || sort || page > 1);
-  const categoryName = category
-    ? CATEGORIES.find((c) => c.slug === category)?.name
-    : "";
-
-  const crumbs = [{ label: "Home", href: "/" }];
-  if (q) crumbs.push({ label: `Search: "${q}"` });
-  else if (categoryName) crumbs.push({ label: categoryName });
 
   return (
     <div>
@@ -92,14 +62,11 @@ export default function HomePage({ searchParams }) {
         </Suspense>
         <div className="flex-1 min-w-0">
           {isBrowsing && (
-            <>
-              <Breadcrumbs items={crumbs} />
-              <h1 className="font-display text-xl font-bold mb-3">
-                {q ? `Results for "${q}"` : category
-                  ? categoryName || "Products"
-                  : "All Products"}
-              </h1>
-            </>
+            <h1 className="font-display text-xl font-bold mb-3">
+              {q ? `Results for "${q}"` : category
+                ? CATEGORIES.find((c) => c.slug === category)?.name || "Products"
+                : "All Products"}
+            </h1>
           )}
           <Suspense fallback={null}>
             <SortBar total={total} />

@@ -216,9 +216,7 @@ for (const cat of CATEGORIES) {
     const name = `${brand} ${noun} ${adjs.join(" ")}`.trim();
     const price = money(rand, cat.priceRange);
     const hasDiscount = rand() > 0.35;
-    // Round to nearest 1% and cap at 75 so "Deals of the Day" (sorted by
-    // discount desc) doesn't pile up dozens of products at one exact value.
-    const discountPct = hasDiscount ? Math.round(5 + rand() * 70) : 0;
+    const discountPct = hasDiscount ? 5 + Math.floor(rand() * 55) : 0;
     const originalPrice = hasDiscount
       ? Math.round((price / (1 - discountPct / 100)) / 10) * 10
       : price;
