@@ -7,20 +7,22 @@ function storageKey(slug) {
   return `aaru_reviews_${slug}`;
 }
 
-export default function Reviews({ productSlug }) {
+export default function Reviews({ productSlug, seedReviews = [] }) {
   const { user } = useAuth();
-  const [reviews, setReviews] = useState([]);
+  const [userReviews, setUserReviews] = useState([]);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(storageKey(productSlug));
-      setReviews(raw ? JSON.parse(raw) : []);
+      setUserReviews(raw ? JSON.parse(raw) : []);
     } catch (e) {
-      setReviews([]);
+      setUserReviews([]);
     }
   }, [productSlug]);
+
+  const reviews = [...userReviews, ...seedReviews];
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,10 +33,11 @@ export default function Reviews({ productSlug }) {
         rating,
         comment: comment.trim(),
         date: new Date().toISOString().slice(0, 10),
+        verified: false,
       },
-      ...reviews,
+      ...userReviews,
     ];
-    setReviews(next);
+    setUserReviews(next);
     try {
       localStorage.setItem(storageKey(productSlug), JSON.stringify(next));
     } catch (e) {
@@ -97,6 +100,9 @@ export default function Reviews({ productSlug }) {
                   {r.rating} ★
                 </span>
                 <span className="font-medium">{r.name}</span>
+                {r.verified && (
+                  <span className="text-emerald-700 text-[11px] font-medium">✓ Verified Purchase</span>
+                )}
                 <span className="text-muted text-xs">{r.date}</span>
               </div>
               <p className="text-sm text-gray-700 mt-1">{r.comment}</p>

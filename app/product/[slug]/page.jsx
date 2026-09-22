@@ -76,10 +76,26 @@ export default function ProductPage({ params }) {
           <div className="mt-3">
             <WishlistButton slug={product.slug} />
           </div>
+
+          {product.specs && Object.keys(product.specs).length > 0 && (
+            <div className="mt-6 border-t border-gray-200 pt-4">
+              <h2 className="font-display text-sm font-bold text-gray-900 mb-3">Specifications</h2>
+              <table className="w-full text-sm">
+                <tbody>
+                  {Object.entries(product.specs).map(([k, v]) => (
+                    <tr key={k} className="border-b border-gray-100 last:border-0">
+                      <td className="py-1.5 pr-4 text-muted w-1/3 align-top">{k}</td>
+                      <td className="py-1.5 text-gray-800 font-medium">{v}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 
-      <Reviews productSlug={product.slug} />
+      <Reviews productSlug={product.slug} seedReviews={product.reviews || []} />
 
       <div className="mt-10">
         <ProductRail title="You may also like" products={related} />
