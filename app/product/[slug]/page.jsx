@@ -41,7 +41,7 @@ export default function ProductPage({ params }) {
         </div>
 
         <div>
-          <p className="text-xs uppercase tracking-wide text-muted">{product.brand}</p>
+          <p className="text-sm text-muted">{product.brand}</p>
           <h1 className="font-display text-2xl font-bold text-gray-900 mt-1">{product.name}</h1>
 
           <div className="flex items-center gap-2 mt-2 text-sm">

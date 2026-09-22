@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import HeroBanner from "@/components/HeroBanner";
+import CategoryNav from "@/components/CategoryNav";
+import TrustBar from "@/components/TrustBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import SortBar from "@/components/SortBar";
 import Pagination from "@/components/Pagination";
@@ -33,6 +35,10 @@ export default function HomePage({ searchParams }) {
           <div className="mb-8">
             <HeroBanner />
           </div>
+          <div className="mb-10">
+            <CategoryNav />
+          </div>
+          <TrustBar />
           <ProductRail
             title="Deals of the Day"
             subtitle="Up to 60% off — refreshed daily"
