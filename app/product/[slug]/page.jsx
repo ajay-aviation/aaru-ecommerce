@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getRelatedProducts, formatPrice } from "@/lib/products";
 import AddToCartForm from "@/components/AddToCartForm";
 import WishlistButton from "@/components/WishlistButton";
 import Reviews from "@/components/Reviews";
+import ProductGallery from "@/components/ProductGallery";
 import { ProductRail } from "@/components/ProductGrid";
 
 export function generateMetadata({ params }) {
@@ -25,19 +25,7 @@ export default function ProductPage({ params }) {
     <div>
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <div className="relative aspect-square bg-white border border-gray-200 rounded-md overflow-hidden">
-            <Image src={product.image} alt={product.name} fill className="object-cover" priority />
-          </div>
-          <div className="flex gap-2 mt-2">
-            {product.images.map((img, i) => (
-              <div
-                key={i}
-                className="relative h-16 w-16 rounded border border-gray-200 overflow-hidden bg-white"
-              >
-                <Image src={img} alt={`${product.name} view ${i + 1}`} fill className="object-cover" />
-              </div>
-            ))}
-          </div>
+          <ProductGallery images={product.images} name={product.name} />
         </div>
 
         <div>
@@ -95,7 +83,12 @@ export default function ProductPage({ params }) {
         </div>
       </div>
 
-      <Reviews productSlug={product.slug} seedReviews={product.reviews || []} />
+      <Reviews
+        productSlug={product.slug}
+        seedReviews={product.reviews || []}
+        rating={product.rating}
+        reviewCount={product.reviewCount}
+      />
 
       <div className="mt-10">
         <ProductRail title="You may also like" products={related} />
