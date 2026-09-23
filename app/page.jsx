@@ -18,15 +18,23 @@ export default function HomePage({ searchParams }) {
   const category = searchParams?.category || "";
   const page = parseInt(searchParams?.page || "1", 10);
   const sort = searchParams?.sort || "";
+  const minPrice = searchParams?.minPrice || "";
+  const maxPrice = searchParams?.maxPrice || "";
+  const minRating = searchParams?.minRating || "";
+  const brand = searchParams?.brand || "";
 
   const { items, total, page: currentPage, totalPages } = queryProducts({
     q,
     category,
     page,
     sort,
+    minPrice,
+    maxPrice,
+    minRating,
+    brand,
   });
 
-  const isBrowsing = Boolean(q || category || sort || page > 1);
+  const isBrowsing = Boolean(q || category || sort || page > 1 || minPrice || maxPrice || minRating || brand);
 
   return (
     <div>

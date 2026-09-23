@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { formatPrice } from "@/lib/products";
@@ -44,7 +45,10 @@ export default function OrdersPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-sm font-semibold">Total: {formatPrice(o.total)}</p>
+              <p className="text-sm font-semibold mb-2">Total: {formatPrice(o.total)}</p>
+              <Link href={`/account/orders/${o.id}`} className="text-xs font-medium text-brand hover:underline">
+                Track this order
+              </Link>
             </div>
           ))}
         </div>

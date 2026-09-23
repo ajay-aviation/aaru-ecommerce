@@ -7,6 +7,7 @@ import { useCart } from "@/lib/cart-context";
 import { useWishlist } from "@/lib/wishlist-context";
 import { useAuth } from "@/lib/auth-context";
 import { CATEGORIES } from "@/lib/products";
+import Logo from "@/components/Logo";
 
 export default function Header() {
   const router = useRouter();
@@ -30,10 +31,8 @@ export default function Header() {
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center gap-4">
           <Link href="/" className="flex flex-col leading-none shrink-0">
-            <span className="font-display text-2xl font-bold tracking-tight">
-              AAR<span className="text-accent">U</span>
-            </span>
-            <span className="text-[10px] text-white/70 -mt-1">Shop the everyday</span>
+            <Logo size={34} />
+            <span className="text-[10px] text-white/70 mt-0.5 ml-1">Shop the everyday</span>
           </Link>
 
           <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl">

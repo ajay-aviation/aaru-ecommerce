@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth-context";
 import { formatPrice } from "@/lib/products";
+import { validateCoupon } from "@/lib/coupons";
 
 export default function CheckoutPage() {
   const { items, subtotal, updateQuantity, removeItem, clearCart } = useCart();
@@ -20,9 +21,32 @@ export default function CheckoutPage() {
     city: "",
     pincode: "",
   });
+  const [couponInput, setCouponInput] = useState("");
+  const [coupon, setCoupon] = useState(null);
+  const [couponMessage, setCouponMessage] = useState("");
 
   const shipping = subtotal >= 499 || subtotal === 0 ? 0 : 49;
-  const total = subtotal + shipping;
+  const discount = coupon?.discount || 0;
+  const total = Math.max(0, subtotal + shipping - discount);
+
+  function handleApplyCoupon(e) {
+    e.preventDefault();
+    if (!couponInput.trim()) return;
+    const result = validateCoupon(couponInput, subtotal);
+    if (result.valid) {
+      setCoupon(result);
+      setCouponMessage(`"${result.code}" applied — ${result.label}`);
+    } else {
+      setCoupon(null);
+      setCouponMessage(result.message);
+    }
+  }
+
+  function removeCoupon() {
+    setCoupon(null);
+    setCouponInput("");
+    setCouponMessage("");
+  }
 
   function handlePlaceOrder(e) {
     e.preventDefault();
@@ -35,9 +59,11 @@ export default function CheckoutPage() {
         items,
         subtotal,
         shipping,
+        discount,
+        couponCode: coupon?.code || null,
         total,
         address,
-        status: "paid",
+        status: "confirmed",
         date: new Date().toISOString(),
       };
       saveOrder(order);
@@ -60,10 +86,10 @@ export default function CheckoutPage() {
         </p>
         <div className="flex gap-3 justify-center">
           <button
-            onClick={() => router.push("/account/orders")}
+            onClick={() => router.push(`/account/orders/${placed.id}`)}
             className="bg-brand text-white px-5 py-2 rounded font-medium"
           >
-            View order history
+            Track order
           </button>
           <button
             onClick={() => router.push("/")}
@@ -172,6 +198,38 @@ export default function CheckoutPage() {
           />
         </div>
 
+        <div className="border-t border-gray-200 pt-3">
+          <h3 className="text-sm font-semibold mb-2">Have a coupon?</h3>
+          {coupon ? (
+            <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded px-3 py-2 text-sm">
+              <span className="text-emerald-700 font-medium">{coupon.code} applied</span>
+              <button type="button" onClick={removeCoupon} className="text-xs text-rose-600 hover:underline">
+                Remove
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                placeholder="Enter code"
+                value={couponInput}
+                onChange={(e) => setCouponInput(e.target.value)}
+                className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm uppercase"
+              />
+              <button
+                type="button"
+                onClick={handleApplyCoupon}
+                className="bg-brand/[0.08] text-brand font-medium text-sm px-3 rounded hover:bg-brand/[0.14]"
+              >
+                Apply
+              </button>
+            </div>
+          )}
+          {couponMessage && !coupon && (
+            <p className="text-xs text-rose-600 mt-1">{couponMessage}</p>
+          )}
+          <p className="text-[11px] text-muted mt-1.5">Try WELCOME10, AARU50 or FESTIVE20</p>
+        </div>
+
         <div className="border-t border-gray-200 pt-3 space-y-1 text-sm">
           <div className="flex justify-between">
             <span className="text-muted">Subtotal</span>
@@ -181,6 +239,12 @@ export default function CheckoutPage() {
             <span className="text-muted">Shipping</span>
             <span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
           </div>
+          {discount > 0 && (
+            <div className="flex justify-between text-emerald-700">
+              <span>Coupon discount</span>
+              <span>−{formatPrice(discount)}</span>
+            </div>
+          )}
           <div className="flex justify-between font-semibold text-base pt-1">
             <span>Total</span>
             <span>{formatPrice(total)}</span>
